@@ -25,16 +25,6 @@ func (*ClientAdapterImpl) Init(client *http.Client, token string, host string) e
 	return err
 }
 
-func (ca *ClientAdapterImpl) GetAuthorizedUser() (*models.User, error) {
-	res, _, err := ca.client.GetAuthorizedUser()
-	if err != nil {
-		logger.Error(err, "error in authenticated user data")
-		return nil, err
-	}
-
-	return toUser(res), nil
-}
-
 // GetRepository implements clients.ClientAdapter
 func (ca *ClientAdapterImpl) GetRepository(owner string, repo string, branch string) (*models.Repository, error) {
 	rep, _, err := ca.client.GetRepository(owner, repo)

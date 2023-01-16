@@ -14,7 +14,6 @@ var (
 )
 
 type GithubClient interface {
-	GetAuthorizedUser() (*github.User, *github.Response, error)
 	ListOrganizationMembers(organization string, options *github.ListMembersOptions) ([]*github.User, *github.Response, error)
 	ListRepositoryBranches(organization string, repositoryName string) ([]*github.Branch, *github.Response, error)
 	GetRepositoryBranch(owner, repo, branch string, followRedirects bool) (*github.Branch, *github.Response, error)
@@ -93,10 +92,6 @@ func (gca *GithubClientImpl) ListPullRequestsWithCommit(owner, repository, sha s
 
 func (gca *GithubClientImpl) ListPullRequestReviews(owner, repo string, number int, opts *github.ListOptions) ([]*github.PullRequestReview, *github.Response, error) {
 	return gca.client.PullRequests.ListReviews(gca.ctx, owner, repo, number, opts)
-}
-
-func (gca *GithubClientImpl) GetAuthorizedUser() (*github.User, *github.Response, error) {
-	return gca.client.Users.Get(gca.ctx, "")
 }
 
 func (gca *GithubClientImpl) ListRepositoryTopics(owner, repo string) ([]string, *github.Response, error) {

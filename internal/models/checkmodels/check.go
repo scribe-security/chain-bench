@@ -35,7 +35,6 @@ type CheckData struct {
 }
 
 type AssetsData struct {
-	AuthorizedUser    *models.User
 	Organization      *models.Organization
 	Repository        *models.Repository
 	BranchProtections *models.Protection

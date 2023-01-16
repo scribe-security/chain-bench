@@ -14,7 +14,7 @@ endif
 
 .PHONY: build
 build:
-	go build $(LDFLAGS) ./cmd/chain-bench
+	CGO_ENABLED=0 go build $(LDFLAGS) ./cmd/chain-bench
 
 .PHONY: run
 run:

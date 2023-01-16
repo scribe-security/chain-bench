@@ -29,16 +29,6 @@ func (*ClientAdapterImpl) Init(client *http.Client, token string, host string) e
 	return err
 }
 
-func (ca *ClientAdapterImpl) GetAuthorizedUser() (*models.User, error) {
-	res, _, err := ca.client.GetAuthorizedUser()
-	if err != nil {
-		logger.Error(err, "error in authenticated user data")
-		return nil, err
-	}
-
-	return toUser(res), nil
-}
-
 // GetRepository implements clients.ClientAdapter
 func (ca *ClientAdapterImpl) GetRepository(owner string, repo string, branch string) (*models.Repository, error) {
 	rep, _, err := ca.client.GetRepository(owner, repo)
@@ -174,8 +164,6 @@ func (ca *ClientAdapterImpl) GetRegistry(organization *models.Organization) (*mo
 		pkgs, _, err := ca.client.ListOrganizationPackages(*organization.Login, packageType)
 		if err != nil {
 			logger.WarnE(err, "failed to fetch org packages")
-			packages = nil
-			break
 		}
 		packages = append(packages, pkgs...)
 	}

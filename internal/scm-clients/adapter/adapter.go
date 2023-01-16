@@ -17,5 +17,4 @@ type ClientAdapter interface {
 	GetRegistry(organization *models.Organization) (*models.PackageRegistry, error)
 	ListOrganizationMembers(organization string) ([]*models.User, error)
 	GetPipelines(owner, repo, branch string) ([]*pipelineModels.Pipeline, error)
-	GetAuthorizedUser() (*models.User, error)
 }

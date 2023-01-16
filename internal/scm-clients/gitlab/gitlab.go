@@ -13,7 +13,6 @@ var (
 )
 
 type GitlabClient interface {
-	GetAuthorizedUser() (*gitlab.User, *gitlab.Response, error)
 	ListRepositoryBranches(org string, repoId string) ([]*gitlab.Branch, *gitlab.Response, error)
 	GetBranchProtection(owner string, repo string, branch string) (*gitlab.ProtectedBranch, *gitlab.Response, error)
 	GetApprovalConfiguration(project string) (*gitlab.ProjectApprovals, *gitlab.Response, error)
@@ -40,10 +39,6 @@ func InitClient(client *http.Client, token string, host string) (GitlabClient, e
 	Client = &GitlabClientImpl{ctx: context.TODO(), client: gc}
 	return Client, nil
 }
-func (gca *GitlabClientImpl) GetAuthorizedUser() (*gitlab.User, *gitlab.Response, error) {
-	return gca.client.Users.GetUser(1, gitlab.GetUsersOptions{})
-}
-
 func (gca *GitlabClientImpl) ListRepositoryBranches(org string, repoId string) ([]*gitlab.Branch, *gitlab.Response, error) {
 	return gca.client.Branches.ListBranches(repoId, &gitlab.ListBranchesOptions{})
 }

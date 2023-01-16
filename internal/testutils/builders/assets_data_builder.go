@@ -3,8 +3,6 @@ package builders
 import (
 	"github.com/aquasecurity/chain-bench/internal/models"
 	"github.com/aquasecurity/chain-bench/internal/models/checkmodels"
-	"github.com/aquasecurity/chain-bench/internal/testutils"
-	"github.com/aquasecurity/chain-bench/internal/utils"
 	pipelineParserModels "github.com/argonsecurity/pipeline-parser/pkg/models"
 )
 
@@ -17,7 +15,6 @@ func NewAssetsDataBuilder() *AssetsDataBuilder {
 		Organization:      NewOrganizationBuilder().Build(),
 		Repository:        NewRepositoryBuilder().Build(),
 		BranchProtections: NewBranchProtectionBuilder().Build(),
-		AuthorizedUser:    &models.User{ID: utils.GetPtr(testutils.AuthorizedUserMockId)},
 		Pipelines:         []*pipelineParserModels.Pipeline{NewPipelineBuilder().Build()},
 		Registry:          &models.PackageRegistry{Packages: []*models.Package{}},
 	}}
@@ -25,11 +22,6 @@ func NewAssetsDataBuilder() *AssetsDataBuilder {
 
 func (b *AssetsDataBuilder) WithRepository(repo *models.Repository) *AssetsDataBuilder {
 	b.assetsData.Repository = repo
-	return b
-}
-
-func (b *AssetsDataBuilder) WithAuthorizedUser() *AssetsDataBuilder {
-	b.assetsData.AuthorizedUser = &models.User{ID: utils.GetPtr(testutils.AuthorizedUserMockId)}
 	return b
 }
 

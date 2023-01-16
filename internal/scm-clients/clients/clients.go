@@ -43,9 +43,11 @@ func FetchClientData(accessToken string, repoUrl string, scmPlatform string, bra
 	if err != nil {
 		return nil, nil, err
 	}
-	authorizedUser, _ := adapter.GetAuthorizedUser()
 
-	repo, _ := adapter.GetRepository(orgName, repoName, branch)
+	repo, err := adapter.GetRepository(orgName, repoName, branch)
+	if err != nil {
+		return nil, nil, err
+	}
 	logger.FetchingFinished("Repository Settings", emoji.OilDrum)
 
 	var protection *models.Protection
@@ -57,29 +59,37 @@ func FetchClientData(accessToken string, repoUrl string, scmPlatform string, bra
 		branchName := utils.GetBranchName(utils.GetValue(repo.DefaultBranch), branch)
 
 		logger.FetchingFinished("Branch Protection Settings", emoji.Seedling)
-		protection, _ = adapter.GetBranchProtection(orgName, repo, branchName)
-
+		protection, err = adapter.GetBranchProtection(orgName, repo, branchName)
+		if err != nil {
+			return nil, nil, err
+		}
 		pipelines, _ = adapter.GetPipelines(orgName, repoName, branchName)
 		logger.FetchingFinished("Pipelines", emoji.Wrench)
 
 		if *repo.Owner.Type == "Organization" {
-			org, _ = adapter.GetOrganization(orgName)
+			org, err = adapter.GetOrganization(orgName)
+			if err != nil {
+				return nil, nil, err
+			}
 			logger.FetchingFinished("Organization Settings", emoji.OfficeBuilding)
 
-			registry, _ = adapter.GetRegistry(org)
+			registry, err = adapter.GetRegistry(org)
+			if err != nil {
+				return nil, nil, err
+			}
 
 			orgMembers, err := adapter.ListOrganizationMembers(orgName)
-			if err == nil {
-				org.Members = orgMembers
-				logger.FetchingFinished("Members", emoji.Emoji(emoji.WomanAndManHoldingHands.Tone()))
+			if err != nil {
+				return nil, nil, err
 			}
+			org.Members = orgMembers
+			logger.FetchingFinished("Members", emoji.Emoji(emoji.WomanAndManHoldingHands.Tone()))
 		}
 	}
 
 	checksIds, err := adapter.ListSupportedChecksIDs()
 
 	return &checkmodels.AssetsData{
-		AuthorizedUser:    authorizedUser,
 		Organization:      org,
 		Repository:        repo,
 		BranchProtections: protection,

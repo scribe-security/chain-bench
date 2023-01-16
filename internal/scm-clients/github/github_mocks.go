@@ -11,7 +11,6 @@ var (
 	ListOrganizationMembersFunc        func(organization string, options *github.ListMembersOptions) ([]*github.User, *github.Response, error)
 	GetRepositoryBranchFunc            func(owner, repo, branch string, followRedirects bool) (*github.Branch, *github.Response, error)
 	ListRepositoryBranchesFunc         func(owner string, repo string) ([]*github.Branch, *github.Response, error)
-	GetAuthorizedUserFunc              func() (*github.User, *github.Response, error)
 	GetCommitFunc                      func(organization string, repositoryName string, sha string) (*github.RepositoryCommit, *github.Response, error)
 	ListCommitsFunc                    func(organization string, repositoryName string, opts *github.CommitsListOptions) ([]*github.RepositoryCommit, *github.Response, error)
 	GetBranchProtectionFunc            func(owner, repo, branch string) (*github.Protection, *github.Response, error)
@@ -97,14 +96,6 @@ func (mgca *MockGithubClientAdapter) ListRepositoryBranches(owner, repo string) 
 	}
 
 	return []*github.Branch{}, nil, nil
-}
-
-func (mgca *MockGithubClientAdapter) GetAuthorizedUser() (*github.User, *github.Response, error) {
-	if GetRepositoryBranchFunc != nil {
-		return GetAuthorizedUserFunc()
-	}
-
-	return &github.User{}, nil, nil
 }
 
 func (*MockGithubClientAdapter) GetBranchProtection(owner string, repo string, branch string) (*github.Protection, *github.Response, error) {
