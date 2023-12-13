@@ -20,7 +20,7 @@ jobs:
           goos: linux
           goarch: amd64
           goversion: 1.18
-          project_path: cmd/chain-bench/main
+          project_path: cmd/chain-bench
           binary_name: chain-bench
           sha256sum: true
           md5sum: true
