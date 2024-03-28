@@ -110,7 +110,8 @@ CbPolicy[msg] {
 #Missing minimal permission for branch protection settings
 CbPolicy[msg] {
 	input.Repository.Collaborators != null
-	msg := {"ids": ["1.1.3", "1.1.4", "1.1.5", "1.1.6", "1.1.9", "1.1.10", "1.1.11", "1.1.14", "1.1.15", "1.1.16", "1.1.17"], "status": constsLib.status.Unknown, "details": constsLib.details.repository_missing_minimal_permissions_for_branch_protection}
+	not permissionslib.is_repo_admin
+	msg := {"ids": ["1.1.3", "1.1.4", "1.1.5", "1.1.6", "1.1.9", "1.1.10", "1.1.11", "1.1.12", "1.1.14", "1.1.15", "1.1.16", "1.1.17"], "status": constsLib.status.Unknown, "details": constsLib.details.repository_missing_minimal_permissions_for_branch_protection}
 }
 
 #Missing branch protection settings
